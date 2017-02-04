@@ -54,7 +54,7 @@ def check_angle(quad):
     return True
 
 
-def check_boundary(quad, rows, cols):
+def check_boundary(quad, cols, rows):
     for p in quad:
         if p.x < 0 or p.x > cols or p.y < 0 or p.y > rows:
             return False
@@ -95,6 +95,7 @@ def intersection_between_lines(la, lb):
 
     ptx = (p1.x * p2.x * p21.y + p1.y * p2.x * la_start.x - p2.y * p1.x * lb_start.x) / d
     pty = -(p1.y * p2.y * p21.x + p1.x * p2.y * la_start.y - p2.x * p1.y * lb_start.y) / d
+
     pt = Point(ptx, pty)
 
     c1 = abs(pt.x - la_start.x - round(p1.x / 2)) <= abs(round(p1.x / 2))
@@ -158,7 +159,7 @@ def largest_quadrangle_search(vertical_lines, horizon_lines, cols, rows):
                         area = area_of_quadrangle(quad)
                         if area > max_area:
                             if check_angle(quad) and check_aspect_ratio(quad) \
-                                    and check_boundary(quad, rows, cols):
+                                    and check_boundary(quad, cols, rows):
                                 max_area = area
                                 best_quad = quad
 

@@ -44,8 +44,8 @@ def new_detect():
 
 
 def main():
-    #lineCard()
-    new_detect()
+    lineCard()
+    #new_detect()
     sys.exit(0)
     cc = 0
     for ipath in glob.glob("/Users/kevinhuang/PycharmProjects/cardDetect2/jiandongCard/*.JPG"):
