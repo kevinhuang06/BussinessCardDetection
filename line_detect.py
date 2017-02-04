@@ -1,11 +1,8 @@
 # coding=utf-8
-import cv2
-import glob
-import os
-import sys
 import time
-import numpy as np
+
 from lQS import *
+
 
 def draw_vertical_line(line, small):
     rho = line[0]  # 第一个元素是距离rho
@@ -113,10 +110,10 @@ def draw_quadrangle(Q, img):
 
 def lineCard():
     cc = 0
-    for ipath in glob.glob("/Users/kevinhuang/PycharmProjects/cardDetect2/jiandongCard/*.JPG"):
+    for ipath in glob.glob("/Users/kevinhuang/PycharmProjects/cardDetect2/res/jiandongCard/*.JPG"):
         # print ipath
         bname = os.path.basename(ipath)
-        _outputpath = os.path.join("/Users/kevinhuang/PycharmProjects/cardDetect2/box_jiandongCard/",
+        _outputpath = os.path.join("/Users/kevinhuang/PycharmProjects/cardDetect2/res/box_jiandongCard/",
                                    bname)
 
         img = cv2.imread(ipath)

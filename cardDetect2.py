@@ -6,6 +6,8 @@ import numpy as np
 import sys
 from line_detect import *
 from largestQuadrangleSearch import *
+from bizcard import  BizCardDetector
+import util
 
 def distance_point_line():
     pass
@@ -19,8 +21,31 @@ def drawLines(lines,img, _outputpath):
    # print lines
     #pass
 
+
+def new_detect():
+    detector = BizCardDetector()
+    cc = 0
+    for ipath in glob.glob("/Users/kevinhuang/PycharmProjects/cardDetect2/res/jiandongCard/*.JPG"):
+
+        bname = os.path.basename(ipath)
+        _outputpath = os.path.join("/Users/kevinhuang/PycharmProjects/cardDetect2/res/box_stanford_big/", bname)
+
+        #print ipath
+        img = cv2.imread(ipath)
+
+        quad = detector.detect_card(img)
+        if quad:
+            cc += 1
+            util.draw_quadrangle(img, quad)
+        else:
+            print bname
+        cv2.imwrite(_outputpath, img)
+    print cc
+
+
 def main():
-    lineCard()
+    #lineCard()
+    new_detect()
     sys.exit(0)
     cc = 0
     for ipath in glob.glob("/Users/kevinhuang/PycharmProjects/cardDetect2/jiandongCard/*.JPG"):
