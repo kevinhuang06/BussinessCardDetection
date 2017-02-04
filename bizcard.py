@@ -19,7 +19,7 @@ class BizCardDetector(object):
 
         small_resolution = 640 * 480
         self.scale = np.sqrt(img.shape[1]*img.shape[0]*1.0 / small_resolution)
-
+        print (int(img.shape[1] / self.scale), int(img.shape[0] / self.scale))
         return cv2.resize(img, (int(img.shape[1] / self.scale), int(img.shape[0] / self.scale)))
 
     def detect_card(self, img):
@@ -34,6 +34,8 @@ class BizCardDetector(object):
         cv2.drawContours(contours_img, contours, -1, (255, 255, 255), 1)
 
         lines = cv2.HoughLines(contours_img, 1, np.pi / 180, 100)
+        if lines is None:
+            return None
         reduced_v_lines, reduced_h_lines = util.reduce_lines(lines[0])
 
         quad_on_small = lqs2.largest_quadrangle_search(reduced_v_lines, reduced_h_lines, small.shape[1], small.shape[0])

@@ -25,7 +25,8 @@ def drawLines(lines,img, _outputpath):
 def new_detect():
     detector = BizCardDetector()
     cc = 0
-    for ipath in glob.glob("/Users/kevinhuang/PycharmProjects/cardDetect2/res/jiandongCard/*.JPG"):
+    #for ipath in glob.glob("/Users/kevinhuang/PycharmProjects/cardDetect2/res/jiandongCard/*.JPG"):
+    for ipath in glob.glob("/Users/kevinhuang/Documents/XcodeWorkspace/opencv_test/bizcard/*jpg"):
 
         bname = os.path.basename(ipath)
         _outputpath = os.path.join("/Users/kevinhuang/PycharmProjects/cardDetect2/res/box_stanford_big/", bname)
@@ -37,15 +38,17 @@ def new_detect():
         if quad:
             cc += 1
             util.draw_quadrangle(img, quad)
+            print ipath
+            cv2.imwrite(_outputpath, img)
         else:
             print bname
-        cv2.imwrite(_outputpath, img)
+
     print cc
 
 
 def main():
-    lineCard()
-    #new_detect()
+    #lineCard()
+    new_detect()
     sys.exit(0)
     cc = 0
     for ipath in glob.glob("/Users/kevinhuang/PycharmProjects/cardDetect2/jiandongCard/*.JPG"):
