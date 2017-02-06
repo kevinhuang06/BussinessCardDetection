@@ -9,7 +9,6 @@ import lqs2
 
 
 class BizCardDetector(object):
-
     def __init__(self):
 
         """scale for resize input image"""
@@ -18,7 +17,7 @@ class BizCardDetector(object):
     def zoom_out_image(self, img):
 
         small_resolution = 640 * 480
-        self.scale = np.sqrt(img.shape[1]*img.shape[0]*1.0 / small_resolution)
+        self.scale = np.sqrt(img.shape[1] * img.shape[0] * 1.0 / small_resolution)
         print (int(img.shape[1] / self.scale), int(img.shape[0] / self.scale))
         return cv2.resize(img, (int(img.shape[1] / self.scale), int(img.shape[0] / self.scale)))
 
@@ -41,10 +40,10 @@ class BizCardDetector(object):
         quad_on_small = lqs2.largest_quadrangle_search(reduced_v_lines, reduced_h_lines, small.shape[1], small.shape[0])
 
         if quad_on_small:
-            #util.draw_quadrangle(small, quad_on_small)
-            #cv2.imshow('quadrangle', small)
-            #cv2.waitKey(0)
-            return [[int(p[0]*self.scale), int(p[1]*self.scale)] for p in quad_on_small] #quad on input img
+            # util.draw_quadrangle(small, quad_on_small)
+            # cv2.imshow('quadrangle', small)
+            # cv2.waitKey(0)
+            return [[int(p[0] * self.scale), int(p[1] * self.scale)] for p in quad_on_small]  # quad on input img
 
         return None
 
@@ -64,19 +63,22 @@ class BizCardDetector(object):
         return cv2.warpPerspective(img, matrix, (width, height))
 
 
-def sample_detect(input_img_path = '/Users/kevinhuang/PycharmProjects/cardDetect2/res/jiandongCard/IMG_4082.JPG'):
-
-    #input_img_path = '/Users/kevinhuang/PycharmProjects/cardDetect2/res/jiandongCard/IMG_4082.JPG'
+def sample_detect(input_img_path='/Users/kevinhuang/PycharmProjects/cardDetect2/res/jiandongCard/IMG_4082.JPG'):
+    # input_img_path = '/Users/kevinhuang/PycharmProjects/cardDetect2/res/jiandongCard/IMG_4082.JPG'
     detector = BizCardDetector()
     img = cv2.imread(input_img_path)
     quad = detector.detect_card(img)
     if quad:
         #util.draw_quadrangle(img, quad)
         small = cv2.resize(img, (int(img.shape[1] / detector.scale), int(img.shape[0] / detector.scale)))
-        #cv2.imshow('quadrangle', small)
-        #cv2.waitKey(0)
+        # cv2.imshow('quadrangle', small)
+        # cv2.waitKey(0)
         rect_card = detector.rectangle_card(img, quad)
-        small_rect_card = cv2.resize(rect_card, (int(rect_card.shape[1] / detector.scale), int(rect_card.shape[0] / detector.scale)))
+        card_resolution = 854*480
+        card_scale = np.sqrt(rect_card.shape[1]*rect_card.shape[0]*1./card_resolution)
+        small_rect_card = cv2.resize(rect_card,
+                                     (int(rect_card.shape[1] / card_scale),
+                                      int(rect_card.shape[0] / card_scale)))
 
         #cv2.imshow('quadrangle', small_rect_card)
         #cv2.waitKey(0)
@@ -86,6 +88,6 @@ def sample_detect(input_img_path = '/Users/kevinhuang/PycharmProjects/cardDetect
         print "no bizcard detected!"
         return None
 
+
 if __name__ == '__main__':
     sample_detect()
-
