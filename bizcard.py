@@ -48,16 +48,44 @@ class BizCardDetector(object):
 
         return None
 
-if __name__ == '__main__':
+    def rectangle_card(self, img, quad):
 
-    input_img_path = '/Users/kevinhuang/PycharmProjects/cardDetect2/res/jiandongCard/IMG_4080.JPG'
+        len_left_edge = int(np.linalg.norm([quad[1][0] - quad[0][0], quad[1][1] - quad[0][1]]))
+        len_right_edge = int(np.linalg.norm([quad[3][0] - quad[2][0], quad[3][1] - quad[2][1]]))
+        width = max(len_left_edge, len_right_edge)
+        len_top_edge = int(np.linalg.norm([quad[2][0] - quad[1][0], quad[2][1] - quad[1][1]]))
+        len_bottom_edge = int(np.linalg.norm([quad[0][0] - quad[3][0], quad[0][1] - quad[3][1]]))
+        height = max(len_top_edge, len_bottom_edge)
+        print quad
+        src = np.float32([quad[0], quad[1], quad[3], quad[2]])
+        dst = np.float32([[0, 0], [width, 0], [0, height], [width, height]])
+
+        matrix = cv2.getPerspectiveTransform(src, dst)
+        return cv2.warpPerspective(img, matrix, (width, height))
+
+
+def sample_detect(input_img_path = '/Users/kevinhuang/PycharmProjects/cardDetect2/res/jiandongCard/IMG_4082.JPG'):
+
+    #input_img_path = '/Users/kevinhuang/PycharmProjects/cardDetect2/res/jiandongCard/IMG_4082.JPG'
     detector = BizCardDetector()
     img = cv2.imread(input_img_path)
     quad = detector.detect_card(img)
     if quad:
-        util.draw_quadrangle(img, quad)
+        #util.draw_quadrangle(img, quad)
         small = cv2.resize(img, (int(img.shape[1] / detector.scale), int(img.shape[0] / detector.scale)))
-        cv2.imshow('quadrangle', small)
-        cv2.waitKey(0)
+        #cv2.imshow('quadrangle', small)
+        #cv2.waitKey(0)
+        rect_card = detector.rectangle_card(img, quad)
+        small_rect_card = cv2.resize(rect_card, (int(rect_card.shape[1] / detector.scale), int(rect_card.shape[0] / detector.scale)))
+
+        #cv2.imshow('quadrangle', small_rect_card)
+        #cv2.waitKey(0)
+        return small_rect_card
+
     else:
         print "no bizcard detected!"
+        return None
+
+if __name__ == '__main__':
+    sample_detect()
+

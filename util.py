@@ -21,7 +21,7 @@ def similar_line(l1, l2):
 
 def merge_similar_lines(lines):
     merged_lines = []
-    sorted_lines = sorted(lines, key=lambda x: (x[0], x[1]))
+    sorted_lines = sorted(lines, key=lambda x: (abs(x[0]), x[1]))
 
     if sorted_lines:
         last = sorted_lines[0]

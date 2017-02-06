@@ -297,8 +297,8 @@ def findAndTransform(processed, original, scale):
     lRight = np.array(lRight) * scale
     points = [uLeft,uRight,lRight,lLeft]
 
-    length = int(m.sqrt((uLeft[0]-uRight[0])**2 + (uLeft[1]-uRight[1])**2))
-    width = int(m.sqrt((uLeft[0] - lLeft[0])**2 + (uLeft[1] - lLeft[1])**2 ))
+    length = int(m.sqrt((uLeft[0] - uRight[0])**2 + (uLeft[1] - uRight[1])**2))
+    width = int(m.sqrt((uLeft[0] - lLeft[0])**2 + (uLeft[1] - lLeft[1])**2))
     #Maps corners to new image size
     pts1 = np.float32([uLeft[::-1],uRight[::-1],lLeft[::-1],lRight[::-1]])
     pts2 = np.float32([[0,0],[length,0],[0,width],[length ,width]])

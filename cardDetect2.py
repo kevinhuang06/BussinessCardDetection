@@ -8,6 +8,7 @@ from line_detect import *
 from largestQuadrangleSearch import *
 from bizcard import  BizCardDetector
 import util
+from bizcard import *
 
 def distance_point_line():
     pass
@@ -45,16 +46,28 @@ def new_detect():
 
     print cc
 
+def rect_detect():
+    for ipath in glob.glob("/Users/kevinhuang/PycharmProjects/cardDetect2/res/jiandongCard/*.JPG"):
 
+        bname = os.path.basename(ipath)
+        _outputpath = os.path.join("/Users/kevinhuang/PycharmProjects/cardDetect2/res/rect_jiandongCard/", bname)
+
+        rect_card = sample_detect(ipath)
+
+        if rect_card is not None:
+            cv2.imwrite(_outputpath, rect_card)
+            print _outputpath
 def main():
     #lineCard()
-    new_detect()
+    rect_detect()
+
+    #new_detect()
     sys.exit(0)
     cc = 0
-    for ipath in glob.glob("/Users/kevinhuang/PycharmProjects/cardDetect2/jiandongCard/*.JPG"):
+    for ipath in glob.glob("/Users/kevinhuang/PycharmProjects/cardDetect2/res/jiandongCard/*.JPG"):
         print ipath
         bname = os.path.basename(ipath)
-        _outputpath = os.path.join("/Users/kevinhuang/PycharmProjects/cardDetect2/line_jiandongCard/", bname)
+        _outputpath = os.path.join("/Users/kevinhuang/PycharmProjects/cardDetect2/res/line_jiandongCard/", bname)
         img = cv2.imread(ipath)
         small = cv2.resize(img, (int(img.shape[1] / 6), int(img.shape[0] / 6)))
         print small.shape

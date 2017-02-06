@@ -127,13 +127,14 @@ def express_line_with_two_points(lines):
     return new_lines
 
 
-def make_quadrangle(left, top, right, down):
+def make_quadrangle(bottom, left, top, right):
 
     corner = []
+    corner.append(intersection_between_lines(bottom, left))
     corner.append(intersection_between_lines(left, top))
     corner.append(intersection_between_lines(top, right))
-    corner.append(intersection_between_lines(right, down))
-    corner.append(intersection_between_lines(down, left))
+    corner.append(intersection_between_lines(right, bottom))
+
     for c in corner:
         if c.x == 0 and c.y == 0:
             corner = []
@@ -149,12 +150,12 @@ def largest_quadrangle_search(vertical_lines, horizon_lines, cols, rows):
     v_lines = express_line_with_two_points(vertical_lines)
     h_lines = express_line_with_two_points(horizon_lines)
 
-    for l in range(len(v_lines)):
-        for t in range(len(h_lines)):
-            for r in range(l+1, len(v_lines))[::-1]:
-                for d in range(t+1, len(h_lines))[::-1]:
+    for b in range(len(h_lines)):
+        for l in range(len(v_lines)):
+            for t in range(b + 1, len(h_lines))[::-1]:
+                for r in range(l+1, len(v_lines))[::-1]:
 
-                    quad = make_quadrangle(v_lines[l], h_lines[t], v_lines[r], h_lines[d])
+                    quad = make_quadrangle(h_lines[b], v_lines[l], h_lines[t], v_lines[r])
                     if quad:
                         area = area_of_quadrangle(quad)
                         if area > max_area:
