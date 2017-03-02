@@ -1,21 +1,17 @@
-example:
-    执行 python ./bizcard.py 既可看到检测出的卡片.
+#Description#
+    this project can detect a bissiness card in a image.
+    
+##Usage##
+    python ./bizcard.py
  
-依赖环境：opencv
-
-算法流程:
-1 canny 边缘检测
-2 寻找连通集合，仅保留前3大联通集合
-3 houghLines直线检测
-4 将检出直线 分成 水平和垂直直线两类
-4 对检出直线 进行筛减
-    合并相近的直线
-    移除 没有垂直直线的直线。
-5 在限制条件下，寻找最大面积四边形
-    Limitation: 
-             面积 > 图片面积 四分之一
-             宽高比 [0.45,0.85]
-             直线夹角 接近90°
-             角点在图片内部
-6  得到卡片的角点位置              
-7 调用仿射变换 生成 矩形卡片。
+##Depandence##
+    opencv, numpy
+##Algorithm Flow##
+1. canny edge deteciton
+2. find top-3 conturs in edeg-image
+3. use houghLine to detection lines
+4. divide lines to vertical-set and horizon-set
+5. reduce lines by some rules, merge neighbor lines, remove line that Perpendicular to no line
+6. find out biggest quadrangle.
+7. tell 4 corner point of card
+8. generate rectangle card by call affine transformation
