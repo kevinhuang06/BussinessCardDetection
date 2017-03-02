@@ -1,5 +1,5 @@
 #Description#
-    this project can detect a bissiness card in a image.
+    this project can detect a bussiness card in a image.
     
 ##Usage##
     python ./bizcard.py
