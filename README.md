@@ -5,7 +5,7 @@
     python ./bizcard.py
  
 ##Depandence##
-    opencv, numpy
+    opencv 2.4.*, numpy
 ##Algorithm Flow##
 1. canny edge deteciton
 2. find top-3 conturs in edeg-image
